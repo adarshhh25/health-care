@@ -31,9 +31,10 @@ const ImageAnalysis = () => {
       reader.readAsDataURL(file);
 
       const response = await analyzeImage(formData);
-      setResult(response);
+      const data = response.data || response;
+      setResult(data);
 
-      if (response.medical_attention_recommended) {
+      if (data.medical_attention_recommended) {
         toast.warning('Analysis suggests you should consult a healthcare provider.');
       } else {
         toast.success('Image analysis complete!');
@@ -84,7 +85,7 @@ const ImageAnalysis = () => {
           ) : result ? (
             <div className="space-y-6">
               <ImageAnalysisResult data={result} image={analyzedImage} />
-              
+
               <div className="text-center">
                 <button
                   onClick={handleNewAnalysis}
