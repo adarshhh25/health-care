@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 import Alert from '../ui/Alert';
 import Disclaimer from '../ui/Disclaimer';
+import VoiceOutputButton from '../ui/VoiceOutputButton';
 
 const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
   const { t } = useTranslation();
@@ -91,9 +92,14 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
       {/* Header with Severity Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h2 className="text-2xl font-bold text-gray-900">{t('symptoms.analysis.title')}</h2>
-        <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${severity.color}`}>
-          {severity.label}
-        </span>
+        <div className="flex items-center gap-3">
+          <VoiceOutputButton
+            text={`${t('symptoms.analysis.title')}. ${data.care_advice || ''}. ${data.possible_causes ? data.possible_causes.join('. ') : ''}`}
+          />
+          <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${severity.color}`}>
+            {severity.label}
+          </span>
+        </div>
       </div>
 
       {/* Doctor Recommendation Alert */}

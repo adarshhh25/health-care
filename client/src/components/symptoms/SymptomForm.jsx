@@ -6,6 +6,7 @@ import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Textarea from '../ui/Textarea';
 import Select from '../ui/Select';
+import VoiceInputButton from '../ui/VoiceInputButton';
 
 const SymptomForm = ({ onSubmit, loading }) => {
   const { t } = useTranslation();
@@ -96,15 +97,24 @@ const SymptomForm = ({ onSubmit, loading }) => {
       </div>
 
       {/* Symptoms */}
-      <Textarea
-        label={t('symptoms.form.symptoms')}
-        placeholder={t('symptoms.form.symptoms_placeholder')}
-        value={formData.symptoms}
-        onChange={(e) => handleChange('symptoms', e.target.value)}
-        error={errors.symptoms}
-        required
-        rows={6}
-      />
+      <div className="relative">
+        <Textarea
+          label={t('symptoms.form.symptoms')}
+          placeholder={t('symptoms.form.symptoms_placeholder')}
+          value={formData.symptoms}
+          onChange={(e) => handleChange('symptoms', e.target.value)}
+          error={errors.symptoms}
+          required
+          rows={6}
+        />
+        <VoiceInputButton
+          className="absolute right-2 bottom-2"
+          onResult={(text) => {
+            const newText = formData.symptoms ? `${formData.symptoms} ${text}` : text;
+            handleChange('symptoms', newText);
+          }}
+        />
+      </div>
 
       {/* Duration */}
       <Select

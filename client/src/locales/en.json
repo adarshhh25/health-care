@@ -14,6 +14,9 @@
         "new_search": "New Search",
         "page_not_found": "Page not found",
         "back_home": "Back to Home",
+        "listening": "Listening...",
+        "listen": "Listen",
+        "stop_listening": "Stop",
         "disclaimer": {
             "title": "Medical Disclaimer",
             "desc": "This AI-powered screening tool is for informational purposes only and does not constitute medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for proper medical evaluation and care."
