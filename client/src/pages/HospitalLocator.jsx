@@ -19,14 +19,15 @@ const HospitalLocator = () => {
 
     try {
       const response = await findNearestHospitals(locationData);
+      const data = response.data || response;
 
-      if (response.hospitals && response.hospitals.length > 0) {
-        setHospitals(response.hospitals);
+      if (data.hospitals && data.hospitals.length > 0) {
+        setHospitals(data.hospitals);
         setUserLocation({
           latitude: locationData.latitude,
           longitude: locationData.longitude
         });
-        toast.success(`Found ${response.hospitals.length} hospitals near you!`);
+        toast.success(`Found ${data.hospitals.length} hospitals near you!`);
       } else {
         toast.info('No hospitals found in your area. Try increasing the search radius.');
       }
