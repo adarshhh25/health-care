@@ -30,14 +30,32 @@ const LocationInput = ({ onSubmit, loading }) => {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
         setLocation({
-          latitude: position.coords.latitude.toString(),
-          longitude: position.coords.longitude.toString()
+          latitude: lat.toString(),
+          longitude: lon.toString()
         });
         setGettingLocation(false);
+
+        // Auto-submit logic
+        if (onSubmit) {
+          onSubmit({
+            latitude: lat,
+            longitude: lon,
+            limit: parseInt(limit)
+          });
+        }
       },
       (err) => {
-        setError('Unable to get your location. Please enter manually.');
+        console.error('Geolocation error:', err);
+        let errorMessage = 'Unable to get your location.';
+        if (err.code === 1) errorMessage = 'Location permission denied.';
+        else if (err.code === 2) errorMessage = 'Location unavailable.';
+        else if (err.code === 3) errorMessage = 'Location request timed out.';
+
+        setError(`${errorMessage} Please enter manually.`);
         setGettingLocation(false);
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -46,7 +64,7 @@ const LocationInput = ({ onSubmit, loading }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const lat = parseFloat(location.latitude);
     const lon = parseFloat(location.longitude);
 

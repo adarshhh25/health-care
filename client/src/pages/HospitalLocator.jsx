@@ -19,12 +19,12 @@ const HospitalLocator = () => {
 
     try {
       const response = await findNearestHospitals(locationData);
-      
+
       if (response.hospitals && response.hospitals.length > 0) {
         setHospitals(response.hospitals);
-        setUserLocation({ 
-          latitude: locationData.latitude, 
-          longitude: locationData.longitude 
+        setUserLocation({
+          latitude: locationData.latitude,
+          longitude: locationData.longitude
         });
         toast.success(`Found ${response.hospitals.length} hospitals near you!`);
       } else {
@@ -109,9 +109,9 @@ const HospitalLocator = () => {
               {/* Hospital List */}
               <div className="space-y-4">
                 {hospitals.map((hospital, index) => (
-                  <HospitalCard 
-                    key={index} 
-                    hospital={hospital} 
+                  <HospitalCard
+                    key={index}
+                    hospital={hospital}
                     index={index}
                   />
                 ))}
