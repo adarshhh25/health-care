@@ -15,7 +15,7 @@ import HowItWorks from '../components/home/HowItWorks';
 
 const Home = () => {
   return (
-    <div className="flex flex-col w-full overflow-x-hidden">
+    <div className="flex flex-col w-full overflow-x-hidden gap-16 sm:gap-24">
       <Hero />
       <Features />
       <HowItWorks />
