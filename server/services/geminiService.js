@@ -74,8 +74,21 @@ Remember: When in doubt, recommend medical consultation.`;
   }
 
   /**
+   * Helper to get language name from code
+   */
+  getLanguageName(code) {
+    const languages = {
+      'en': 'English',
+      'hi': 'Hindi',
+      'mr': 'Marathi',
+      'bn': 'Bengali'
+    };
+    return languages[code] || 'English';
+  }
+
+  /**
    * Analyze symptoms using Gemini AI
-   * @param {Object} symptomData - {age, gender, symptoms, duration}
+   * @param {Object} symptomData - {age, gender, symptoms, duration, language}
    * @returns {Object} Analysis result
    */
   async analyzeSymptoms(symptomData) {
@@ -83,7 +96,8 @@ Remember: When in doubt, recommend medical consultation.`;
       throw new Error('Gemini API is not configured. Please set GEMINI_API_KEY in .env file');
     }
 
-    const { age, gender, symptoms, duration } = symptomData;
+    const { age, gender, symptoms, duration, language } = symptomData;
+    const targetLanguage = this.getLanguageName(language);
 
     // Validate input
     if (!symptoms || symptoms.trim() === '') {
@@ -99,6 +113,8 @@ Patient Information:
 - Duration: ${duration || 'Not specified'}
 
 Please analyze these symptoms and provide a structured response following the JSON format specified in your instructions.
+IMPORTANT: Provide the response content in ${targetLanguage}. 
+However, you MUST keep the JSON property keys (possible_causes, severity, care_advice, etc.) in English. Only translate the values/descriptions.
 `;
 
     try {
@@ -147,7 +163,7 @@ Please analyze these symptoms and provide a structured response following the JS
 
   /**
    * Analyze follow-up answers to refine diagnosis
-   * @param {Object} data - { original_symptoms, follow_up_answers }
+   * @param {Object} data - { original_symptoms, follow_up_answers, language }
    * @returns {Object} Refined analysis result
    */
   async analyzeFollowUp(data) {
@@ -155,7 +171,8 @@ Please analyze these symptoms and provide a structured response following the JS
       throw new Error('Gemini API is not configured');
     }
 
-    const { original_symptoms, follow_up_answers } = data;
+    const { original_symptoms, follow_up_answers, language } = data;
+    const targetLanguage = this.getLanguageName(language);
 
     const userPrompt = `
 PREVIOUS CONTEXT:
@@ -178,6 +195,9 @@ Format response as the same JSON structure as before:
   "follow_up_questions": ["new questions if needed, or empty if clear"],
   "disclaimer": "Standard medical disclaimer"
 }
+
+IMPORTANT: Provide the response content in ${targetLanguage}. 
+However, you MUST keep the JSON property keys in English. Only translate the values.
 `;
 
     try {
@@ -223,12 +243,15 @@ Format response as the same JSON structure as before:
    * Analyze medical image using Gemini Vision
    * @param {Buffer} imageBuffer - Image file buffer
    * @param {String} mimeType - Image MIME type
+   * @param {String} language - Target language code
    * @returns {Object} Analysis result
    */
-  async analyzeImage(imageBuffer, mimeType) {
+  async analyzeImage(imageBuffer, mimeType, language) {
     if (!this.isConfigured()) {
       throw new Error('Gemini API is not configured. Please set GEMINI_API_KEY in .env file');
     }
+
+    const targetLanguage = this.getLanguageName(language);
 
     const imagePrompt = `You are a medical screening assistant analyzing an image.
 
@@ -253,7 +276,11 @@ Format as JSON:
   "medical_attention_recommended": true/false,
   "advice": "general guidance",
   "disclaimer": "standard disclaimer"
-}`;
+}
+
+IMPORTANT: Provide the response content in ${targetLanguage}. 
+However, you MUST keep the JSON property keys in English. Only translate the values.
+`;
 
     try {
       // Convert buffer to base64

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Activity } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Card from '../components/ui/Card';
 import Loader from '../components/ui/Loader';
 import SymptomForm from '../components/symptoms/SymptomForm';
@@ -10,6 +11,7 @@ import EmergencyAlert from '../components/symptoms/EmergencyAlert';
 import { analyzeSymptoms } from '../services/api';
 
 const SymptomChecker = () => {
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [showEmergency, setShowEmergency] = useState(false);
@@ -34,7 +36,10 @@ const SymptomChecker = () => {
 
       setCurrentSymptoms(symptomsText);
 
-      const response = await analyzeSymptoms({ symptoms: symptomsText });
+      const response = await analyzeSymptoms({
+        symptoms: symptomsText,
+        language: i18n.language
+      });
 
       const analysisData = response.data || response;
       setResult(analysisData);
@@ -66,7 +71,8 @@ const SymptomChecker = () => {
     try {
       const response = await import('../services/api').then(m => m.submitFollowUp({
         original_symptoms: currentSymptoms,
-        follow_up_answers: answers
+        follow_up_answers: answers,
+        language: i18n.language
       }));
 
       const analysisData = response.data || response;
@@ -99,10 +105,10 @@ const SymptomChecker = () => {
               <Activity className="w-8 h-8 text-[#2B6CB0]" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-              AI Symptom Checker
+              {t('symptoms.title')}
             </h1>
             <p className="text-lg text-gray-600 max-w-xl mx-auto">
-              Describe your symptoms in detail and get instant AI-powered preliminary analysis.
+              {t('symptoms.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -113,7 +119,7 @@ const SymptomChecker = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <Card>
-              <Loader message="Analyzing your symptoms..." size="default" />
+              <Loader message={t('symptoms.loading')} size="default" />
             </Card>
           ) : result ? (
             <div className="space-y-6">
@@ -124,7 +130,7 @@ const SymptomChecker = () => {
                   onClick={handleNewAnalysis}
                   className="text-[#2B6CB0] font-semibold hover:underline"
                 >
-                  ← Start New Analysis
+                  ← {t('symptoms.new_analysis')}
                 </button>
               </div>
             </div>

@@ -113,11 +113,13 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import Section from '../ui/Section';
 
 const Hero = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Section background="white" className="relative overflow-hidden pt-6 sm:pt-16 lg:pt-4 pb-20">
@@ -142,7 +144,7 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2B6CB0]" />
           </span>
-          AI-Powered Healthcare Screening
+          {t('hero.badge')}
         </motion.div>
 
         {/* Heading */}
@@ -152,9 +154,9 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight mb-6 leading-[1.1]"
         >
-          Accessible Healthcare{' '}
+          {t('hero.title_start')}{' '}
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2B6CB0] to-[#48BB78]">
-            for Rural Communities
+            {t('hero.title_highlight')}
           </span>
         </motion.h1>
 
@@ -165,9 +167,7 @@ const Hero = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Get instant preliminary health screening powered by AI.
-          Describe your symptoms, analyze images, and find nearby hospitals —
-          all from your device.
+          {t('hero.subtitle')}
         </motion.p>
 
         {/* CTAs */}
@@ -182,7 +182,7 @@ const Hero = () => {
             onClick={() => navigate('/symptoms')}
             className="shadow-xl shadow-blue-200/50"
           >
-            Check Your Symptoms
+            {t('hero.cta_check_symptoms')}
             <ChevronRight className="w-5 h-5" />
           </Button>
           <Button
@@ -190,7 +190,7 @@ const Hero = () => {
             size="lg"
             onClick={() => navigate('/hospitals')}
           >
-            Find Hospitals Near Me
+            {t('hero.cta_find_hospitals')}
           </Button>
         </motion.div>
 
@@ -203,10 +203,10 @@ const Hero = () => {
         >
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
             {[
-              { value: '10,000+', label: 'Hospitals Indexed' },
-              { value: '24/7', label: 'AI Availability' },
-              { value: 'Free', label: 'Always Free' },
-              { value: '<30s', label: 'Analysis Time' },
+              { value: t('hero.stats.val_hospitals'), label: t('hero.stats.hospitals') },
+              { value: t('hero.stats.val_available'), label: t('hero.stats.available') },
+              { value: t('hero.stats.val_free'), label: t('hero.stats.lbl_free') },
+              { value: t('hero.stats.val_time'), label: t('hero.stats.analysis_time') },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</p>

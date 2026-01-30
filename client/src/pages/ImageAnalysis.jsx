@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Camera } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import Card from '../components/ui/Card';
 import Loader from '../components/ui/Loader';
 import ImageUpload from '../components/image/ImageUpload';
@@ -9,6 +10,7 @@ import ImageAnalysisResult from '../components/image/ImageAnalysisResult';
 import { analyzeImage } from '../services/api';
 
 const ImageAnalysis = () => {
+  const { t, i18n } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [analyzedImage, setAnalyzedImage] = useState(null);
@@ -21,6 +23,7 @@ const ImageAnalysis = () => {
       // Create form data
       const formData = new FormData();
       formData.append('image', file);
+      formData.append('language', i18n.language);
       if (description) {
         formData.append('description', description);
       }
@@ -66,10 +69,10 @@ const ImageAnalysis = () => {
               <Camera className="w-8 h-8 text-purple-600" />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-              Image Analysis
+              {t('image_analysis.title')}
             </h1>
             <p className="text-lg text-gray-600 max-w-xl mx-auto">
-              Upload an image of visible symptoms for AI-powered visual screening.
+              {t('image_analysis.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -80,7 +83,7 @@ const ImageAnalysis = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
             <Card>
-              <Loader message="Analyzing your image..." size="default" />
+              <Loader message={t('image_analysis.loading')} size="default" />
             </Card>
           ) : result ? (
             <div className="space-y-6">
@@ -91,7 +94,7 @@ const ImageAnalysis = () => {
                   onClick={handleNewAnalysis}
                   className="text-purple-600 font-semibold hover:underline"
                 >
-                  ← Analyze Another Image
+                  ← {t('image_analysis.new_analysis')}
                 </button>
               </div>
             </div>

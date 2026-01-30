@@ -1,10 +1,12 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import Textarea from '../ui/Textarea';
 
 const ImageUpload = ({ onSubmit, loading }) => {
+  const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [description, setDescription] = useState('');
@@ -22,13 +24,13 @@ const ImageUpload = ({ onSubmit, loading }) => {
 
     // Validate file type
     if (!allowedTypes.includes(file.type)) {
-      setError('Please upload a valid image file (JPEG, PNG, GIF, WebP, or BMP)');
+      setError(t('image_analysis.upload.errors.invalid_type'));
       return;
     }
 
     // Validate file size
     if (file.size > maxSize) {
-      setError('File size must be less than 10MB');
+      setError(t('image_analysis.upload.errors.file_size'));
       return;
     }
 
@@ -40,7 +42,7 @@ const ImageUpload = ({ onSubmit, loading }) => {
       setPreview(e.target.result);
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [t]);
 
   const handleDrag = useCallback((e) => {
     e.preventDefault();
@@ -80,7 +82,7 @@ const ImageUpload = ({ onSubmit, loading }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedFile) {
-      setError('Please select an image to analyze');
+      setError(t('image_analysis.upload.errors.no_file'));
       return;
     }
     onSubmit({ file: selectedFile, description });
@@ -96,7 +98,7 @@ const ImageUpload = ({ onSubmit, loading }) => {
       {/* Upload Zone */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Upload Image <span className="text-red-500">*</span>
+          {t('image_analysis.upload.label')} <span className="text-red-500">*</span>
         </label>
 
         {!preview ? (
@@ -109,8 +111,8 @@ const ImageUpload = ({ onSubmit, loading }) => {
             className={`
               relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer
               transition-all duration-200
-              ${dragActive 
-                ? 'border-purple-500 bg-purple-50' 
+              ${dragActive
+                ? 'border-purple-500 bg-purple-50'
                 : 'border-gray-300 hover:border-purple-400 hover:bg-gray-50'
               }
             `}
@@ -121,10 +123,10 @@ const ImageUpload = ({ onSubmit, loading }) => {
             >
               <Upload className={`w-12 h-12 mx-auto mb-4 ${dragActive ? 'text-purple-500' : 'text-gray-400'}`} />
               <p className="text-gray-700 font-medium mb-2">
-                {dragActive ? 'Drop image here' : 'Drag & drop or click to upload'}
+                {dragActive ? t('image_analysis.upload.drop_here') : t('image_analysis.upload.drag_drop')}
               </p>
               <p className="text-sm text-gray-500">
-                JPEG, PNG, GIF, WebP, or BMP (max 10MB)
+                {t('image_analysis.upload.formats')}
               </p>
             </motion.div>
 
@@ -166,8 +168,8 @@ const ImageUpload = ({ onSubmit, loading }) => {
 
       {/* Description */}
       <Textarea
-        label="Additional Description (Optional)"
-        placeholder="Describe any symptoms or concerns related to this image..."
+        label={t('image_analysis.upload.desc_label')}
+        placeholder={t('image_analysis.upload.desc_placeholder')}
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         rows={3}
@@ -189,12 +191,12 @@ const ImageUpload = ({ onSubmit, loading }) => {
         disabled={!selectedFile}
         icon={ImageIcon}
       >
-        Analyze Image
+        {t('image_analysis.upload.analyze_btn')}
       </Button>
 
       {/* Privacy Notice */}
       <p className="text-sm text-gray-500 text-center">
-        Images are processed securely and not stored permanently.
+        {t('image_analysis.upload.privacy')}
       </p>
     </motion.form>
   );

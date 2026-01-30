@@ -36,7 +36,7 @@ const geminiService = require('../services/geminiService');
  */
 router.post('/analyze-symptoms', async (req, res) => {
   try {
-    const { age, gender, symptoms, duration } = req.body;
+    const { age, gender, symptoms, duration, language } = req.body;
 
     // Validate required fields
     if (!symptoms || symptoms.trim() === '') {
@@ -68,10 +68,11 @@ router.post('/analyze-symptoms', async (req, res) => {
       age: age || null,
       gender: gender || null,
       symptoms: symptoms.trim(),
-      duration: duration || null
+      duration: duration || null,
+      language: language || 'en'
     };
 
-    console.log(`Analyzing symptoms: ${symptoms.substring(0, 50)}...`);
+    console.log(`Analyzing symptoms: ${symptoms.substring(0, 50)}... (Lang: ${symptomData.language})`);
 
     // Call Gemini AI service
     const analysis = await geminiService.analyzeSymptoms(symptomData);
@@ -117,7 +118,7 @@ router.post('/analyze-symptoms', async (req, res) => {
  */
 router.post('/follow-up', async (req, res) => {
   try {
-    const { original_symptoms, follow_up_answers } = req.body;
+    const { original_symptoms, follow_up_answers, language } = req.body;
 
     if (!original_symptoms || !follow_up_answers) {
       return res.status(400).json({
@@ -131,7 +132,8 @@ router.post('/follow-up', async (req, res) => {
 
     const analysis = await geminiService.analyzeFollowUp({
       original_symptoms,
-      follow_up_answers
+      follow_up_answers,
+      language: language || 'en'
     });
 
     res.json({

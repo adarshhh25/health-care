@@ -68,14 +68,15 @@ router.post('/analyze-image', upload.single('image'), async (req, res) => {
       });
     }
 
-    const { description } = req.body;
+    const { description, language } = req.body;
 
-    console.log(`Analyzing image: ${req.file.originalname} (${req.file.size} bytes)`);
+    console.log(`Analyzing image: ${req.file.originalname} (${req.file.size} bytes) (Lang: ${language || 'en'})`);
 
     // Analyze image using Gemini Vision
     const analysis = await geminiService.analyzeImage(
       req.file.buffer,
-      req.file.mimetype
+      req.file.mimetype,
+      language || 'en'
     );
 
     // Build response
@@ -140,7 +141,7 @@ router.use((error, req, res, next) => {
         message: 'Image file size must not exceed 10MB'
       });
     }
-    
+
     return res.status(400).json({
       success: false,
       error: 'File upload error',

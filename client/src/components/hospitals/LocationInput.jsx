@@ -1,27 +1,29 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Navigation, MapPin, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
 
 const LocationInput = ({ onSubmit, loading }) => {
+  const { t } = useTranslation();
   const [location, setLocation] = useState({ latitude: '', longitude: '' });
   const [limit, setLimit] = useState('5');
   const [gettingLocation, setGettingLocation] = useState(false);
   const [error, setError] = useState('');
 
   const limitOptions = [
-    { value: '3', label: '3 hospitals' },
-    { value: '5', label: '5 hospitals' },
-    { value: '10', label: '10 hospitals' },
-    { value: '15', label: '15 hospitals' },
-    { value: '20', label: '20 hospitals' }
+    { value: '3', label: t('hospitals.form.options.limit_3') },
+    { value: '5', label: t('hospitals.form.options.limit_5') },
+    { value: '10', label: t('hospitals.form.options.limit_10') },
+    { value: '15', label: t('hospitals.form.options.limit_15') },
+    { value: '20', label: t('hospitals.form.options.limit_20') }
   ];
 
   const getUserLocation = () => {
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser');
+      setError(t('hospitals.errors.geolocation_unsupported'));
       return;
     }
 
@@ -50,12 +52,12 @@ const LocationInput = ({ onSubmit, loading }) => {
       },
       (err) => {
         console.error('Geolocation error:', err);
-        let errorMessage = 'Unable to get your location.';
-        if (err.code === 1) errorMessage = 'Location permission denied.';
-        else if (err.code === 2) errorMessage = 'Location unavailable.';
-        else if (err.code === 3) errorMessage = 'Location request timed out.';
+        let errorMessage = t('hospitals.errors.location_error');
+        if (err.code === 1) errorMessage = t('hospitals.errors.permission_denied');
+        else if (err.code === 2) errorMessage = t('hospitals.errors.unavailable');
+        else if (err.code === 3) errorMessage = t('hospitals.errors.timeout');
 
-        setError(`${errorMessage} Please enter manually.`);
+        setError(`${errorMessage} ${t('hospitals.errors.manual_input')}`);
         setGettingLocation(false);
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -69,12 +71,15 @@ const LocationInput = ({ onSubmit, loading }) => {
     const lon = parseFloat(location.longitude);
 
     if (isNaN(lat) || isNaN(lon)) {
-      setError('Please enter valid coordinates');
+      setError(t('hospitals.errors.invalid_coords'));
       return;
     }
 
     if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-      setError('Please enter valid latitude (-90 to 90) and longitude (-180 to 180)');
+      if (lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+        setError(t('hospitals.errors.invalid_range'));
+        return;
+      }
       return;
     }
 
@@ -99,28 +104,28 @@ const LocationInput = ({ onSubmit, loading }) => {
           loading={gettingLocation}
           className="w-full sm:w-auto"
         >
-          {gettingLocation ? 'Getting Location...' : 'Use My Location'}
+          {gettingLocation ? t('common.getting_location') : t('common.u_location')}
         </Button>
-        <span className="text-gray-500 text-sm">or enter coordinates manually</span>
+        <span className="text-gray-500 text-sm">{t('common.or_enter_manually')}</span>
       </div>
 
       {/* Coordinates Input */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
-          label="Latitude"
+          label={t('common.latitude')}
           type="number"
           step="any"
-          placeholder="e.g., 28.7041"
+          placeholder={t('hospitals.placeholders.latitude')}
           value={location.latitude}
           onChange={(e) => setLocation({ ...location, latitude: e.target.value })}
           icon={MapPin}
           required
         />
         <Input
-          label="Longitude"
+          label={t('common.longitude')}
           type="number"
           step="any"
-          placeholder="e.g., 77.1025"
+          placeholder={t('hospitals.placeholders.longitude')}
           value={location.longitude}
           onChange={(e) => setLocation({ ...location, longitude: e.target.value })}
           icon={MapPin}
@@ -130,7 +135,7 @@ const LocationInput = ({ onSubmit, loading }) => {
 
       {/* Limit Selection */}
       <Select
-        label="Number of hospitals to find"
+        label={t('hospitals.form.limit')}
         options={limitOptions}
         value={limit}
         onChange={(e) => setLimit(e.target.value)}
@@ -151,7 +156,7 @@ const LocationInput = ({ onSubmit, loading }) => {
         loading={loading}
         icon={Search}
       >
-        Find Nearby Hospitals
+        {t('hospitals.form.find_btn')}
       </Button>
     </motion.form>
   );

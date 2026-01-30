@@ -10,11 +10,13 @@ import {
   CheckCircle,
   XCircle
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 import Alert from '../ui/Alert';
 import Disclaimer from '../ui/Disclaimer';
 
 const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
+  const { t } = useTranslation();
   const [expandedSections, setExpandedSections] = useState({
     causes: true,
     advice: true,
@@ -31,12 +33,12 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
   // Determine severity level
   const getSeverityBadge = () => {
     if (data.emergency) {
-      return { color: 'bg-red-100 text-red-800 border-red-200', label: 'Emergency' };
+      return { color: 'bg-red-100 text-red-800 border-red-200', label: t('symptoms.analysis.emergency') };
     }
     if (data.see_doctor) {
-      return { color: 'bg-amber-100 text-amber-800 border-amber-200', label: 'See Doctor' };
+      return { color: 'bg-amber-100 text-amber-800 border-amber-200', label: t('symptoms.analysis.see_doctor') };
     }
-    return { color: 'bg-green-100 text-green-800 border-green-200', label: 'Low Concern' };
+    return { color: 'bg-green-100 text-green-800 border-green-200', label: t('symptoms.analysis.low_concern') };
   };
 
   const severity = getSeverityBadge();
@@ -88,7 +90,7 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
     >
       {/* Header with Severity Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h2 className="text-2xl font-bold text-gray-900">Analysis Results</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t('symptoms.analysis.title')}</h2>
         <span className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold border ${severity.color}`}>
           {severity.label}
         </span>
@@ -96,15 +98,14 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
 
       {/* Doctor Recommendation Alert */}
       {data.see_doctor && !data.emergency && (
-        <Alert variant="warning" title="Doctor Visit Recommended">
-          Based on your symptoms, we recommend consulting with a healthcare professional
-          for proper evaluation and treatment.
+        <Alert variant="warning" title={t('symptoms.analysis.doctor_recommended')}>
+          {t('symptoms.analysis.doctor_recommended_desc')}
         </Alert>
       )}
 
       {/* Possible Causes Section */}
       <Section
-        title="Possible Causes"
+        title={t('symptoms.analysis.possible_causes')}
         icon={Stethoscope}
         isOpen={expandedSections.causes}
         onToggle={() => toggleSection('causes')}
@@ -127,13 +128,13 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-500">No specific causes identified.</p>
+          <p className="text-gray-500">{t('symptoms.analysis.no_causes')}</p>
         )}
       </Section>
 
       {/* Care Advice Section */}
       <Section
-        title="Care Advice"
+        title={t('symptoms.analysis.care_advice')}
         icon={Lightbulb}
         isOpen={expandedSections.advice}
         onToggle={() => toggleSection('advice')}
@@ -143,21 +144,21 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
             <p className="leading-relaxed whitespace-pre-line">{data.care_advice}</p>
           </div>
         ) : (
-          <p className="text-gray-500">No specific care advice available.</p>
+          <p className="text-gray-500">{t('symptoms.analysis.no_advice')}</p>
         )}
       </Section>
 
       {/* Follow-up Questions Section */}
       {data.follow_up_questions && data.follow_up_questions.length > 0 && (
         <Section
-          title="Refine Analysis"
+          title={t('symptoms.analysis.refine')}
           icon={HelpCircle}
           isOpen={expandedSections.followUp}
           onToggle={() => toggleSection('followUp')}
         >
           <div className="space-y-4">
             <p className="text-gray-600">
-              Please answer the following questions to help us provide a more accurate analysis:
+              {t('symptoms.analysis.refine_desc')}
             </p>
 
             <form
@@ -198,7 +199,7 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
                   disabled={isUpdating}
                   className="px-6 py-2 bg-[#2B6CB0] text-white rounded-lg font-semibold hover:bg-[#2C5282] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  {isUpdating ? 'Updating...' : 'Update Analysis'}
+                  {isUpdating ? t('symptoms.analysis.updating') : t('symptoms.analysis.update_btn')}
                   {!isUpdating && <ChevronDown className="w-4 h-4 rotate-[-90deg]" />}
                 </button>
               </div>
@@ -216,9 +217,9 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
                 <AlertCircle className="w-6 h-6 text-amber-600" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900">Professional Care Recommended</h4>
+                <h4 className="font-bold text-gray-900">{t('symptoms.analysis.doctor_recommended')}</h4>
                 <p className="text-gray-600 text-sm">
-                  Please consult with a healthcare provider for proper diagnosis and treatment.
+                  {t('symptoms.analysis.doctor_recommended_desc')}
                 </p>
               </div>
             </>
@@ -228,9 +229,9 @@ const AnalysisResult = ({ data, onFollowUp, isUpdating }) => {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900">Monitor at Home</h4>
+                <h4 className="font-bold text-gray-900">{t('symptoms.analysis.monitor_home')}</h4>
                 <p className="text-gray-600 text-sm">
-                  Symptoms appear manageable. Monitor and seek care if they worsen.
+                  {t('symptoms.analysis.monitor_home_desc')}
                 </p>
               </div>
             </>

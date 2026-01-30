@@ -1,21 +1,23 @@
 import { Link } from 'react-router-dom';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
+  const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Symptom Checker', href: '/symptoms' },
-    { name: 'Hospital Finder', href: '/hospitals' },
-    { name: 'Image Analysis', href: '/image-analysis' },
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.symptoms'), href: '/symptoms' },
+    { name: t('nav.hospitals'), href: '/hospitals' },
+    { name: t('nav.image_analysis'), href: '/image-analysis' },
   ];
 
   const resources = [
-    { name: 'Emergency: 108', href: 'tel:108' },
-    { name: 'Health Helpline: 104', href: 'tel:104' },
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Terms of Service', href: '#' },
+    { name: `${t('footer.emergency')}: ${t('common.emergency_btn')}`, href: 'tel:108' },
+    { name: `${t('footer.helpline')}: 104`, href: 'tel:104' },
+    { name: t('footer.privacy'), href: '#' },
+    { name: t('footer.terms'), href: '#' },
   ];
 
   return (
@@ -33,17 +35,16 @@ const Footer = () => {
               <span className="text-xl font-bold text-gray-900">RuralHealthAI</span>
             </div>
             <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
-              Empowering rural communities with accessible AI-driven healthcare screening.
-              Bridging the gap between technology and medical care.
+              {t('footer.brand_desc')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-gray-900 mb-4">Platform</h4>
+            <h4 className="font-bold text-gray-900 mb-4">{t('footer.platform')}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
-                <li key={link.name}>
+                <li key={link.href}>
                   <Link
                     to={link.href}
                     className="text-sm text-gray-600 hover:text-[#2B6CB0] transition-colors"
@@ -57,7 +58,7 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h4 className="font-bold text-gray-900 mb-4">Resources</h4>
+            <h4 className="font-bold text-gray-900 mb-4">{t('footer.resources')}</h4>
             <ul className="space-y-3">
               {resources.map((link) => (
                 <li key={link.name}>
@@ -65,9 +66,9 @@ const Footer = () => {
                     href={link.href}
                     className={`
                       text-sm transition-colors
-                      ${link.name.includes('Emergency')
+                      ${link.name.includes(t('footer.emergency'))
                         ? 'text-red-600 font-semibold hover:text-red-700'
-                        : link.name.includes('Helpline')
+                        : link.name.includes(t('footer.helpline'))
                           ? 'text-[#2B6CB0] font-semibold hover:text-blue-700'
                           : 'text-gray-600 hover:text-[#2B6CB0]'
                       }
@@ -82,7 +83,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-gray-900 mb-4">Contact</h4>
+            <h4 className="font-bold text-gray-900 mb-4">{t('footer.contact')}</h4>
             <ul className="space-y-3 text-sm text-gray-600">
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-gray-400" />
@@ -93,12 +94,12 @@ const Footer = () => {
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-gray-400" />
                 <a href="tel:104" className="hover:text-[#2B6CB0]">
-                  104 (Health Helpline)
+                  104 ({t('footer.helpline')})
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-                <span>Serving Rural India</span>
+                <span>{t('footer.serving')}</span>
               </li>
             </ul>
           </div>

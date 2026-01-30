@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, Phone, MapPin, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 
 const EmergencyAlert = ({ onClose }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <AnimatePresence>
@@ -19,7 +21,7 @@ const EmergencyAlert = ({ onClose }) => {
           <div className="bg-red-600 text-white rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
             {/* Background pulse effect */}
             <div className="absolute inset-0 bg-red-500 animate-pulse opacity-30" />
-            
+
             <div className="relative z-10">
               {/* Close button */}
               {onClose && (
@@ -41,15 +43,14 @@ const EmergencyAlert = ({ onClose }) => {
                   <AlertCircle className="w-10 h-10" />
                 </motion.div>
                 <div>
-                  <h3 className="text-2xl font-bold">⚠️ Emergency Detected</h3>
-                  <p className="text-red-100">Seek Immediate Medical Attention</p>
+                  <h3 className="text-2xl font-bold">⚠️ {t('symptoms.emergency.title')}</h3>
+                  <p className="text-red-100">{t('symptoms.emergency.subtitle')}</p>
                 </div>
               </div>
 
               {/* Message */}
               <p className="text-red-100 mb-6 leading-relaxed">
-                Based on your symptoms, this may require urgent medical care. 
-                Please contact emergency services or visit the nearest hospital immediately.
+                {t('symptoms.emergency.message')}
               </p>
 
               {/* Actions */}
@@ -60,7 +61,7 @@ const EmergencyAlert = ({ onClose }) => {
                   icon={Phone}
                   onClick={() => window.location.href = 'tel:108'}
                 >
-                  Call 108 (Ambulance)
+                  {t('symptoms.emergency.call_btn')}
                 </Button>
                 <Button
                   variant="outline"
@@ -68,7 +69,7 @@ const EmergencyAlert = ({ onClose }) => {
                   icon={MapPin}
                   onClick={() => navigate('/hospitals')}
                 >
-                  Find Nearest Hospital
+                  {t('symptoms.emergency.find_hospital')}
                 </Button>
               </div>
             </div>

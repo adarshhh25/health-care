@@ -4,11 +4,12 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import App from './App.jsx'
 import './index.css'
+import './i18n';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
-    <ToastContainer 
+    <ToastContainer
       position="top-right"
       autoClose={4000}
       hideProgressBar={false}

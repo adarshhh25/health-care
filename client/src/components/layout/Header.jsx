@@ -172,19 +172,33 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Menu, X, Phone } from 'lucide-react';
+import { Heart, Menu, X, Phone, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Symptom Checker', href: '/symptoms' },
-    { name: 'Hospital Finder', href: '/hospitals' },
-    { name: 'Image Analysis', href: '/image-analysis' },
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.symptoms'), href: '/symptoms' },
+    { name: t('nav.hospitals'), href: '/hospitals' },
+    { name: t('nav.image_analysis'), href: '/image-analysis' },
   ];
+
+  const languages = [
+    { code: 'en', name: 'English' },
+    { code: 'hi', name: 'हिंदी' },
+    { code: 'mr', name: 'मराठी' },
+    { code: 'bn', name: 'বাংলা' }
+  ];
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setIsMenuOpen(false);
+  };
 
   const isActive = (path) => location.pathname === path;
 
@@ -207,7 +221,7 @@ const Header = () => {
           <div className="hidden lg:flex items-center gap-2">
             {navigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.href}
                 to={item.href}
                 className={`
                   px-4 py-2 rounded-lg text-sm font-semibold
@@ -221,23 +235,62 @@ const Header = () => {
               </Link>
             ))}
 
+            {/* Language Switcher */}
+            <div className="relative group ml-2">
+              <button className="p-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-[#2B6CB0] flex items-center gap-1">
+                <Globe className="w-5 h-5" />
+                <span className="text-sm font-semibold uppercase">{i18n.language.split('-')[0]}</span>
+              </button>
+
+              <div className="absolute right-0 top-full mt-2 w-32 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`
+                      w-full text-left px-4 py-2 text-sm font-medium
+                      ${i18n.language === lang.code ? 'text-[#2B6CB0] bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}
+                    `}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <Button
               variant="danger"
               size="sm"
               icon={Phone}
-              className="ml-3"
+              className="ml-2"
             >
-              108
+              {t('common.emergency_btn')}
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 rounded-md"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="lg:hidden flex items-center gap-2">
+            {/* Mobile Language Switcher */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                const currentIndex = languages.findIndex(l => l.code === i18n.language);
+                const nextIndex = (currentIndex + 1) % languages.length;
+                changeLanguage(languages[nextIndex].code);
+              }}
+              className="!px-2"
+            >
+              <span className="text-xs font-bold uppercase">{i18n.language.split('-')[0]}</span>
+            </Button>
+
+            <button
+              className="p-2 rounded-md"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -247,7 +300,7 @@ const Header = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-2">
             {navigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.href}
                 to={item.href}
                 onClick={() => setIsMenuOpen(false)}
                 className={`
@@ -262,13 +315,30 @@ const Header = () => {
               </Link>
             ))}
 
+            <div className="border-t border-gray-100 my-2 pt-2">
+              <div className="grid grid-cols-2 gap-2 p-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`
+                      p-2 rounded-lg text-sm font-semibold text-center
+                      ${i18n.language === lang.code ? 'bg-blue-50 text-[#2B6CB0]' : 'text-gray-600 border border-gray-200'}
+                    `}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <Button
               variant="danger"
               fullWidth
               icon={Phone}
               className="mt-3"
             >
-              Call Emergency (108)
+              {t('common.call_emergency')}
             </Button>
           </div>
         </div>

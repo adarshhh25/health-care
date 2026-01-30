@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { MapPin, Navigation, Phone, ExternalLink } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
 const HospitalCard = ({ hospital, index }) => {
+  const { t } = useTranslation();
   const { name, address, distance_km, latitude, longitude, phone } = hospital;
 
   // Distance color coding
@@ -39,7 +41,7 @@ const HospitalCard = ({ hospital, index }) => {
               <h3 className="text-lg font-bold text-gray-900 line-clamp-2">
                 {name}
               </h3>
-              
+
               {/* Distance Badge */}
               <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-bold border whitespace-nowrap ${getDistanceColor()}`}>
                 {distance_km.toFixed(1)} km
@@ -64,9 +66,9 @@ const HospitalCard = ({ hospital, index }) => {
                 onClick={openDirections}
                 className="flex-1 sm:flex-none"
               >
-                Get Directions
+                {t('hospitals.card.directions')}
               </Button>
-              
+
               {phone && (
                 <Button
                   variant="outline"
@@ -75,7 +77,7 @@ const HospitalCard = ({ hospital, index }) => {
                   onClick={() => window.location.href = `tel:${phone}`}
                   className="flex-1 sm:flex-none"
                 >
-                  Call
+                  {t('hospitals.card.call')}
                 </Button>
               )}
             </div>

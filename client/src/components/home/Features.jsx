@@ -1,18 +1,20 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Activity, MapPin, Camera, AlertCircle, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Section from '../ui/Section';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
 const Features = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const features = [
     {
       icon: Activity,
-      title: 'AI Symptom Checker',
-      description: 'Describe your symptoms in natural language and receive instant AI-powered preliminary analysis with care recommendations.',
+      title: t('features.symptom_checker.title'),
+      description: t('features.symptom_checker.desc'),
       path: '/symptoms',
       color: 'text-[#2B6CB0]',
       bgColor: 'bg-blue-50',
@@ -20,8 +22,8 @@ const Features = () => {
     },
     {
       icon: MapPin,
-      title: 'Hospital Finder',
-      description: 'Locate the nearest hospitals and healthcare facilities based on your current location with distance and directions.',
+      title: t('features.hospital_locator.title'),
+      description: t('features.hospital_locator.desc'),
       path: '/hospitals',
       color: 'text-[#48BB78]',
       bgColor: 'bg-green-50',
@@ -29,8 +31,8 @@ const Features = () => {
     },
     {
       icon: Camera,
-      title: 'Image Analysis',
-      description: 'Upload images of visible symptoms for AI-powered visual screening and get preliminary observations.',
+      title: t('features.image_analysis.title'),
+      description: t('features.image_analysis.desc'),
       path: '/image-analysis',
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
@@ -38,8 +40,8 @@ const Features = () => {
     },
     {
       icon: AlertCircle,
-      title: 'Emergency Detection',
-      description: 'Our AI automatically detects potential emergency conditions and provides urgent care guidance immediately.',
+      title: t('features.emergency_support.title'),
+      description: t('features.emergency_support.desc'),
       path: '/symptoms',
       color: 'text-red-600',
       bgColor: 'bg-red-50',
@@ -69,7 +71,7 @@ const Features = () => {
           viewport={{ once: true }}
           className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
         >
-          Core Services
+          {t('features.title')}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -78,8 +80,7 @@ const Features = () => {
           transition={{ delay: 0.1 }}
           className="text-lg text-gray-600 max-w-2xl mx-auto"
         >
-          Powerful AI-driven tools designed to provide immediate health insights
-          and connect you with care.
+          {t('features.subtitle')}
         </motion.p>
       </div>
 

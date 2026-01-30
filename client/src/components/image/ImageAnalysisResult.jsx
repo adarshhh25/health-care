@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, CheckCircle, Eye, Lightbulb, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Disclaimer from '../ui/Disclaimer';
 
 const ImageAnalysisResult = ({ data, image }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -16,7 +18,7 @@ const ImageAnalysisResult = ({ data, image }) => {
     >
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Analysis Results</h2>
+        <h2 className="text-2xl font-bold text-gray-900">{t('image_analysis.result.title')}</h2>
       </div>
 
       {/* Medical Attention Alert */}
@@ -32,11 +34,10 @@ const ImageAnalysisResult = ({ data, image }) => {
             </motion.div>
             <div className="flex-1">
               <h3 className="font-bold text-amber-900 mb-2">
-                ⚠️ Medical Attention Recommended
+                ⚠️ {t('image_analysis.result.medical_attention')}
               </h3>
               <p className="text-amber-800 text-sm mb-4">
-                Based on the image analysis, we recommend consulting with a healthcare 
-                professional for proper evaluation.
+                {t('image_analysis.result.medical_attention_desc')}
               </p>
               <Button
                 variant="secondary"
@@ -44,7 +45,7 @@ const ImageAnalysisResult = ({ data, image }) => {
                 icon={MapPin}
                 onClick={() => navigate('/hospitals')}
               >
-                Find Nearest Hospital
+                {t('image_analysis.result.find_hospital')}
               </Button>
             </div>
           </div>
@@ -56,7 +57,7 @@ const ImageAnalysisResult = ({ data, image }) => {
         <Card hover={false} animate={false}>
           <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Eye className="w-5 h-5 text-purple-600" />
-            Analyzed Image
+            {t('image_analysis.result.analyzed_image')}
           </h3>
           <img
             src={image}
@@ -70,10 +71,10 @@ const ImageAnalysisResult = ({ data, image }) => {
       <Card hover={false} animate={false}>
         <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
           <Eye className="w-5 h-5 text-[#2B6CB0]" />
-          AI Observations
+          {t('image_analysis.result.observations')}
         </h3>
         <p className="text-gray-700 leading-relaxed">
-          {data.description || 'No specific observations available.'}
+          {data.description || t('image_analysis.result.no_observations')}
         </p>
       </Card>
 
@@ -82,7 +83,7 @@ const ImageAnalysisResult = ({ data, image }) => {
         <Card hover={false} animate={false}>
           <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
             <AlertCircle className="w-5 h-5 text-amber-600" />
-            Visible Concerns
+            {t('image_analysis.result.concerns')}
           </h3>
           <ul className="space-y-3">
             {data.concerns.map((concern, index) => (
@@ -106,7 +107,7 @@ const ImageAnalysisResult = ({ data, image }) => {
         <Card hover={false} animate={false}>
           <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Lightbulb className="w-5 h-5 text-[#48BB78]" />
-            General Advice
+            {t('image_analysis.result.advice')}
           </h3>
           <p className="text-gray-700 leading-relaxed">{data.advice}</p>
         </Card>
@@ -115,20 +116,20 @@ const ImageAnalysisResult = ({ data, image }) => {
       {/* Image Info */}
       {data.image_info && (
         <Card className="!bg-gray-50" hover={false} animate={false}>
-          <h3 className="text-sm font-bold text-gray-700 mb-3">Image Information</h3>
+          <h3 className="text-sm font-bold text-gray-700 mb-3">{t('image_analysis.result.image_info')}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
             <div>
-              <p className="text-gray-500">Filename</p>
+              <p className="text-gray-500">{t('image_analysis.result.filename')}</p>
               <p className="text-gray-700 font-medium truncate">{data.image_info.filename}</p>
             </div>
             <div>
-              <p className="text-gray-500">Size</p>
+              <p className="text-gray-500">{t('image_analysis.result.size')}</p>
               <p className="text-gray-700 font-medium">
                 {(data.image_info.size_bytes / 1024).toFixed(1)} KB
               </p>
             </div>
             <div>
-              <p className="text-gray-500">Type</p>
+              <p className="text-gray-500">{t('image_analysis.result.type')}</p>
               <p className="text-gray-700 font-medium">{data.image_info.mime_type}</p>
             </div>
           </div>

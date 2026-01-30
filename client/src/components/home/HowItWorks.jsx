@@ -1,28 +1,31 @@
 import { motion } from 'framer-motion';
 import { MessageSquare, Brain, Stethoscope, MapPin } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Section from '../ui/Section';
 
 const HowItWorks = () => {
+  const { t } = useTranslation();
+
   const steps = [
     {
       icon: MessageSquare,
-      title: 'Describe Symptoms',
-      description: 'Tell us about your symptoms in your own words. Include details like duration and severity.'
+      title: t('how_it_works.step1.title'),
+      description: t('how_it_works.step1.desc')
     },
     {
       icon: Brain,
-      title: 'AI Analysis',
-      description: 'Our AI processes your information and provides preliminary health insights within seconds.'
+      title: t('how_it_works.step2.title'),
+      description: t('how_it_works.step2.desc')
     },
     {
       icon: Stethoscope,
-      title: 'Get Recommendations',
-      description: 'Receive care advice, possible causes, and whether you should see a doctor.'
+      title: t('how_it_works.step3.title'),
+      description: t('how_it_works.step3.desc')
     },
     {
       icon: MapPin,
-      title: 'Find Care',
-      description: 'Locate nearby hospitals and healthcare facilities if professional care is needed.'
+      title: t('how_it_works.step4.title'),
+      description: t('how_it_works.step4.desc')
     }
   ];
 
@@ -35,7 +38,7 @@ const HowItWorks = () => {
           viewport={{ once: true }}
           className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4"
         >
-          How It Works
+          {t('how_it_works.title')}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -44,7 +47,7 @@ const HowItWorks = () => {
           transition={{ delay: 0.1 }}
           className="text-lg text-gray-600 max-w-2xl mx-auto"
         >
-          Get health insights in four simple steps — no appointments needed.
+          {t('how_it_works.subtitle')}
         </motion.p>
       </div>
 
