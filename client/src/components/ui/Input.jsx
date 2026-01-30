@@ -1,35 +1,59 @@
-const Input = ({
-    label,
-    type = 'text',
-    placeholder,
-    value,
-    onChange,
-    name,
-    required = false,
-    error,
-    className = ''
-}) => {
-    return (
-        <div className={`w-full ${className}`}>
-            {label && (
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    {label} {required && <span className="text-red-500">*</span>}
-                </label>
-            )}
-            <input
-                type={type}
-                name={name}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                required={required}
-                className={`w-full px-4 py-3 rounded-xl border ${error ? 'border-red-300' : 'border-gray-200'} bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-gray-900 placeholder-gray-400`}
-            />
-            {error && (
-                <p className="mt-1 text-sm text-red-600">{error}</p>
-            )}
-        </div>
-    );
-};
+import { forwardRef } from 'react';
+
+const Input = forwardRef(({
+  label,
+  error,
+  helperText,
+  icon: Icon,
+  type = 'text',
+  className = '',
+  required = false,
+  ...props
+}, ref) => {
+  return (
+    <div className={`w-full ${className}`}>
+      {label && (
+        <label className="block text-sm font-semibold text-gray-700 mb-2">
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+      )}
+      
+      <div className="relative">
+        {Icon && (
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+            <Icon className="w-5 h-5" />
+          </div>
+        )}
+        
+        <input
+          ref={ref}
+          type={type}
+          className={`
+            w-full px-4 py-3 
+            ${Icon ? 'pl-12' : ''}
+            border-2 rounded-xl
+            text-gray-900 placeholder-gray-400
+            transition-all duration-200
+            focus:outline-none focus:ring-0
+            ${error 
+              ? 'border-red-300 focus:border-red-500 bg-red-50' 
+              : 'border-gray-200 focus:border-[#2B6CB0] hover:border-gray-300'
+            }
+          `}
+          {...props}
+        />
+      </div>
+      
+      {(error || helperText) && (
+        <p className={`mt-2 text-sm ${error ? 'text-red-600' : 'text-gray-500'}`}>
+          {error || helperText}
+        </p>
+      )}
+    </div>
+  );
+});
+
+Input.displayName = 'Input';
 
 export default Input;

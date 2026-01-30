@@ -115,9 +115,9 @@ Please analyze these symptoms and provide a structured response following the JS
       let parsedResponse;
       try {
         // Extract JSON from markdown code blocks if present
-        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || 
-                         text.match(/```\s*([\s\S]*?)\s*```/) ||
-                         [null, text];
+        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) ||
+          text.match(/```\s*([\s\S]*?)\s*```/) ||
+          [null, text];
         parsedResponse = JSON.parse(jsonMatch[1] || text);
       } catch (parseError) {
         // If JSON parsing fails, create a structured response
@@ -142,6 +142,80 @@ Please analyze these symptoms and provide a structured response following the JS
     } catch (error) {
       console.error('Gemini API Error:', error);
       throw new Error(`AI analysis failed: ${error.message}`);
+    }
+  }
+
+  /**
+   * Analyze follow-up answers to refine diagnosis
+   * @param {Object} data - { original_symptoms, follow_up_answers }
+   * @returns {Object} Refined analysis result
+   */
+  async analyzeFollowUp(data) {
+    if (!this.isConfigured()) {
+      throw new Error('Gemini API is not configured');
+    }
+
+    const { original_symptoms, follow_up_answers } = data;
+
+    const userPrompt = `
+PREVIOUS CONTEXT:
+Patient Symptoms: ${original_symptoms}
+
+FOLLOW-UP Q&A:
+${follow_up_answers}
+
+INSTRUCTIONS:
+Based on the original symptoms AND the new information provided in the follow-up answers, please provide a REFINED and MORE SPECIFIC analysis.
+Update the possible causes, severity, and advice based on these new details.
+
+Format response as the same JSON structure as before:
+{
+  "possible_causes": ["refined list of causes"],
+  "severity": "mild|moderate|severe|emergency",
+  "care_advice": "updated specific advice",
+  "doctor_visit_needed": true/false,
+  "emergency": true/false,
+  "follow_up_questions": ["new questions if needed, or empty if clear"],
+  "disclaimer": "Standard medical disclaimer"
+}
+`;
+
+    try {
+      const result = await this.model.generateContent([
+        this.systemPrompt,
+        userPrompt
+      ]);
+
+      const response = result.response;
+      const text = response.text();
+
+      let parsedResponse;
+      try {
+        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) ||
+          text.match(/```\s*([\s\S]*?)\s*```/) ||
+          [null, text];
+        parsedResponse = JSON.parse(jsonMatch[1] || text);
+      } catch (e) {
+        parsedResponse = {
+          possible_causes: ["Could not parse refined analysis"],
+          severity: "unknown",
+          care_advice: text,
+          doctor_visit_needed: true,
+          emergency: false,
+          follow_up_questions: [],
+          disclaimer: "Analysis error. Please consult a doctor."
+        };
+      }
+
+      if (!parsedResponse.disclaimer) {
+        parsedResponse.disclaimer = 'This AI screening is not a substitute for professional medical advice.';
+      }
+
+      return parsedResponse;
+
+    } catch (error) {
+      console.error('Gemini Follow-up Error:', error);
+      throw new Error(`Follow-up analysis failed: ${error.message}`);
     }
   }
 
@@ -199,9 +273,9 @@ Format as JSON:
       // Parse JSON response
       let parsedResponse;
       try {
-        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || 
-                         text.match(/```\s*([\s\S]*?)\s*```/) ||
-                         [null, text];
+        const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) ||
+          text.match(/```\s*([\s\S]*?)\s*```/) ||
+          [null, text];
         parsedResponse = JSON.parse(jsonMatch[1] || text);
       } catch (parseError) {
         parsedResponse = {
@@ -257,8 +331,8 @@ Format as JSON:
   quickEmergencyCheck(symptoms) {
     const lowerSymptoms = symptoms.toLowerCase();
     const emergencyKeywords = this.getEmergencyKeywords();
-    
-    return emergencyKeywords.some(keyword => 
+
+    return emergencyKeywords.some(keyword =>
       lowerSymptoms.includes(keyword)
     );
   }

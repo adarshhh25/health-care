@@ -1,199 +1,112 @@
-/**
- * API Service Layer
- * Handles all backend API calls for the Rural Healthcare AI Platform
- */
-
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api';
+// API Base URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-// Create axios instance with default config
+// Create Axios instance with default config
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 30000, // 30 seconds
+  timeout: 60000, // 60 seconds for AI processing
 });
+
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // You can add auth tokens here if needed
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle common errors
+    let message = 'Something went wrong. Please try again.';
+    
+    if (error.code === 'ECONNABORTED') {
+      message = 'Request timed out. Please try again.';
+    } else if (!error.response) {
+      message = 'Unable to connect to server. Please check your internet connection.';
+    } else if (error.response.status === 400) {
+      message = error.response.data?.message || 'Invalid request. Please check your input.';
+    } else if (error.response.status === 500) {
+      message = error.response.data?.message || 'Server error. Please try again later.';
+    } else if (error.response.data?.message) {
+      message = error.response.data.message;
+    }
+
+    return Promise.reject(new Error(message));
+  }
+);
 
 /**
  * Analyze symptoms using AI
- * @param {Object} symptomData - { age, gender, symptoms, duration }
- * @returns {Promise} AI analysis response
+ * @param {Object} data - { symptoms: string }
+ * @returns {Promise<Object>} Analysis results
  */
-export const analyzeSymptoms = async (symptomData) => {
-  try {
-    const response = await api.post('/analyze-symptoms', symptomData);
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const analyzeSymptoms = async (data) => {
+  const response = await api.post('/api/analyze-symptoms', data);
+  return response.data;
 };
 
 /**
- * Find nearest hospitals based on user location
- * @param {Object} location - { latitude, longitude, limit }
- * @returns {Promise} List of nearest hospitals
+ * Submit follow-up answers for refined analysis
+ * @param {Object} data - { original_symptoms, follow_up_answers }
+ * @returns {Promise<Object>} Updated analysis
  */
-export const getNearestHospitals = async (location) => {
-  try {
-    const response = await api.post('/nearest-hospitals', location);
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const submitFollowUp = async (data) => {
+  const response = await api.post('/api/follow-up', data);
+  return response.data;
 };
 
 /**
- * Find hospitals within a specific radius
- * @param {Object} params - { latitude, longitude, radius_km }
- * @returns {Promise} List of hospitals within radius
+ * Find nearest hospitals
+ * @param {Object} data - { latitude, longitude, limit }
+ * @returns {Promise<Object>} Hospital list
  */
-export const getHospitalsWithinRadius = async (params) => {
-  try {
-    const response = await api.post('/hospitals/within-radius', params);
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const findNearestHospitals = async (data) => {
+  const response = await api.post('/api/nearest-hospitals', data);
+  return response.data;
 };
 
 /**
- * Analyze medical image using AI
- * @param {File} imageFile - Image file to analyze
- * @param {String} description - Optional description
- * @returns {Promise} AI image analysis response
+ * Get all hospitals
+ * @returns {Promise<Object>} All hospitals
  */
-export const analyzeImage = async (imageFile, description = '') => {
-  try {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-    if (description) {
-      formData.append('description', description);
-    }
-
-    const response = await axios.post(`${BASE_URL}/analyze-image`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      timeout: 60000, // 60 seconds for image upload
-    });
-
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const getAllHospitals = async () => {
+  const response = await api.get('/api/hospitals');
+  return response.data;
 };
 
 /**
- * Quick emergency check
- * @param {String} symptoms - Symptom description
- * @returns {Promise} Emergency status
+ * Analyze image using AI
+ * @param {FormData} formData - Image file and optional description
+ * @returns {Promise<Object>} Analysis results
  */
-export const checkEmergency = async (symptoms) => {
-  try {
-    const response = await api.post('/symptoms/check-emergency', { symptoms });
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const analyzeImage = async (formData) => {
+  const response = await api.post('/api/analyze-image', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    timeout: 120000, // 2 minutes for image processing
+  });
+  return response.data;
 };
 
 /**
- * Get list of emergency keywords
- * @returns {Promise} Emergency keywords
+ * Health check endpoint
+ * @returns {Promise<Object>} Server status
  */
-export const getEmergencyKeywords = async () => {
-  try {
-    const response = await api.get('/symptoms/emergency-keywords');
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
+export const healthCheck = async () => {
+  const response = await api.get('/api/health');
+  return response.data;
 };
 
-/**
- * Get all hospitals (with optional search)
- * @param {String} searchQuery - Optional search query
- * @returns {Promise} Hospital list
- */
-export const getAllHospitals = async (searchQuery = '') => {
-  try {
-    const url = searchQuery
-      ? `/hospitals/all?search=${encodeURIComponent(searchQuery)}`
-      : '/hospitals/all';
-    const response = await api.get(url);
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
-};
-
-/**
- * Get hospital count
- * @returns {Promise} Hospital count
- */
-export const getHospitalCount = async () => {
-  try {
-    const response = await api.get('/hospitals/count');
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
-};
-
-/**
- * Get server health status
- * @returns {Promise} Server health
- */
-export const getHealthStatus = async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/health');
-    return response.data;
-  } catch (error) {
-    throw handleError(error);
-  }
-};
-
-/**
- * Handle API errors
- * @param {Error} error - Axios error
- * @returns {Object} Formatted error
- */
-const handleError = (error) => {
-  if (error.response) {
-    // Server responded with error
-    return {
-      success: false,
-      message: error.response.data?.message || error.response.data?.error || 'Server error occurred',
-      status: error.response.status,
-      data: error.response.data,
-    };
-  } else if (error.request) {
-    // Request made but no response
-    return {
-      success: false,
-      message: 'Unable to connect to server. Please check your connection.',
-      status: 0,
-    };
-  } else {
-    // Something else happened
-    return {
-      success: false,
-      message: error.message || 'An unexpected error occurred',
-      status: 0,
-    };
-  }
-};
-
-export default {
-  analyzeSymptoms,
-  getNearestHospitals,
-  getHospitalsWithinRadius,
-  analyzeImage,
-  checkEmergency,
-  getEmergencyKeywords,
-  getAllHospitals,
-  getHospitalCount,
-  getHealthStatus,
-};
+export default api;

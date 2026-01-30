@@ -58,7 +58,7 @@ router.post('/analyze-symptoms', async (req, res) => {
 
     // Quick emergency check
     const isEmergency = geminiService.quickEmergencyCheck(symptoms);
-    
+
     if (isEmergency) {
       console.warn('⚠️  EMERGENCY SYMPTOMS DETECTED');
     }
@@ -112,13 +112,53 @@ router.post('/analyze-symptoms', async (req, res) => {
 });
 
 /**
+ * POST /api/follow-up
+ * Refine analysis based on follow-up answers
+ */
+router.post('/follow-up', async (req, res) => {
+  try {
+    const { original_symptoms, follow_up_answers } = req.body;
+
+    if (!original_symptoms || !follow_up_answers) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields',
+        message: 'Original symptoms and answers are required'
+      });
+    }
+
+    console.log('Processing follow-up analysis...');
+
+    const analysis = await geminiService.analyzeFollowUp({
+      original_symptoms,
+      follow_up_answers
+    });
+
+    res.json({
+      success: true,
+      data: analysis,
+      emergency_alert: analysis.emergency,
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Error in follow-up:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to process follow-up',
+      message: error.message
+    });
+  }
+});
+
+/**
  * GET /api/symptoms/emergency-keywords
  * Returns list of emergency keywords for client-side quick checks
  */
 router.get('/symptoms/emergency-keywords', (req, res) => {
   try {
     const keywords = geminiService.getEmergencyKeywords();
-    
+
     res.json({
       success: true,
       data: {
@@ -155,7 +195,7 @@ router.post('/symptoms/check-emergency', (req, res) => {
       success: true,
       data: {
         is_emergency: isEmergency,
-        message: isEmergency 
+        message: isEmergency
           ? 'Emergency symptoms detected. Seek immediate medical attention!'
           : 'No immediate emergency keywords detected. However, if you feel this is urgent, please seek medical help.',
         disclaimer: 'This is a basic keyword check and not a complete medical assessment.'

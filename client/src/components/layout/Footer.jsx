@@ -1,59 +1,111 @@
-import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Heart, Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
-    return (
-        <footer className="bg-white border-t border-gray-200 mt-auto">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                    {/* Brand */}
-                    <div className="col-span-1 md:col-span-2">
-                        <div className="flex items-center gap-2 mb-4">
-                            <Heart className="w-6 h-6 text-blue-600" fill="currentColor" />
-                            <span className="text-xl font-bold text-gray-900">RuralHealthAI</span>
-                        </div>
-                        <p className="text-gray-600 text-sm leading-relaxed max-w-sm">
-                            Empowering rural communities with accessible AI-driven healthcare screening tools.
-                            Bridging the gap between technology and medical care.
-                        </p>
-                    </div>
+  const currentYear = new Date().getFullYear();
 
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="font-bold text-gray-900 mb-4">Platform</h4>
-                        <ul className="space-y-2 text-sm text-gray-600">
-                            <li><Link to="/symptoms" className="hover:text-blue-600">Symptom Checker</Link></li>
-                            <li><Link to="/hospitals" className="hover:text-blue-600">Find Hospitals</Link></li>
-                            <li><Link to="/image-analysis" className="hover:text-blue-600">Image Analysis</Link></li>
-                        </ul>
-                    </div>
+  const quickLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Symptom Checker', href: '/symptoms' },
+    { name: 'Hospital Finder', href: '/hospitals' },
+    { name: 'Image Analysis', href: '/image-analysis' },
+  ];
 
-                    {/* Contact */}
-                    <div>
-                        <h4 className="font-bold text-gray-900 mb-4">Emergency</h4>
-                        <ul className="space-y-2 text-sm text-gray-600">
-                            <li><span className="font-semibold text-red-600">Ambulance: 108</span></li>
-                            <li><span className="font-semibold text-blue-600">Helpline: 104</span></li>
-                            <li>support@ruralhealthai.com</li>
-                        </ul>
-                    </div>
-                </div>
+  const resources = [
+    { name: 'Emergency: 108', href: 'tel:108' },
+    { name: 'Health Helpline: 104', href: 'tel:104' },
+    { name: 'Privacy Policy', href: '#' },
+    { name: 'Terms of Service', href: '#' },
+  ];
 
-                <div className="border-t border-gray-100 pt-8 mt-8">
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-                        <p className="text-amber-800 text-sm text-center leading-relaxed font-medium">
-                            ⚠️ Medical Disclaimer: This application is for screening and informational purposes only.
-                            It does not provide diagnosis. Always consult a qualified healthcare provider for medical advice.
-                        </p>
-                    </div>
+  return (
+    <footer className="bg-white border-t border-gray-200 mt-auto mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        {/* Main Footer Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
 
-                    <p className="text-center text-gray-400 text-sm">
-                        © {new Date().getFullYear()} Rural Healthcare AI Platform. All rights reserved.
-                    </p>
-                </div>
+          {/* Brand Column */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="bg-[#2B6CB0] p-2 rounded-xl text-white">
+                <Heart className="w-5 h-5" fill="currentColor" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">RuralHealthAI</span>
             </div>
-        </footer>
-    );
+            <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
+              Empowering rural communities with accessible AI-driven healthcare screening.
+              Bridging the gap between technology and medical care.
+            </p>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Platform</h4>
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    className="text-sm text-gray-600 hover:text-[#2B6CB0] transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Resources</h4>
+            <ul className="space-y-3">
+              {resources.map((link) => (
+                <li key={link.name}>
+                  <a
+                    href={link.href}
+                    className={`
+                      text-sm transition-colors
+                      ${link.name.includes('Emergency')
+                        ? 'text-red-600 font-semibold hover:text-red-700'
+                        : link.name.includes('Helpline')
+                          ? 'text-[#2B6CB0] font-semibold hover:text-blue-700'
+                          : 'text-gray-600 hover:text-[#2B6CB0]'
+                      }
+                    `}
+                  >
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-bold text-gray-900 mb-4">Contact</h4>
+            <ul className="space-y-3 text-sm text-gray-600">
+              <li className="flex items-center gap-2">
+                <Mail className="w-4 h-4 text-gray-400" />
+                <a href="mailto:support@ruralhealthai.com" className="hover:text-[#2B6CB0]">
+                  support@ruralhealthai.com
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="w-4 h-4 text-gray-400" />
+                <a href="tel:104" className="hover:text-[#2B6CB0]">
+                  104 (Health Helpline)
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                <span>Serving Rural India</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;
