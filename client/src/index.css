@@ -7,18 +7,18 @@
 html,
 body,
 #root {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 /* Prevent layout shifting */
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* ===============================
@@ -26,19 +26,19 @@ body,
 ================================= */
 
 @theme {
-  --color-primary: #2B6CB0;
-  --color-primary-hover: #2C5282;
-  --color-secondary: #48BB78;
-  --color-secondary-hover: #38A169;
-  --color-accent: #F56565;
-  --color-accent-hover: #E53E3E;
-  --color-emergency: #E53E3E;
-  --color-background: #F7FAFC;
-  --color-surface: #FFFFFF;
-  --color-text-primary: #2D3748;
-  --color-text-secondary: #718096;
-  --font-family-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-family-body: 'Inter', system-ui, sans-serif;
+    --color-primary: #2B6CB0;
+    --color-primary-hover: #2C5282;
+    --color-secondary: #48BB78;
+    --color-secondary-hover: #38A169;
+    --color-accent: #F56565;
+    --color-accent-hover: #E53E3E;
+    --color-emergency: #E53E3E;
+    --color-background: #F7FAFC;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #2D3748;
+    --color-text-secondary: #718096;
+    --font-family-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-family-body: 'Inter', system-ui, sans-serif;
 }
 
 /* ===============================
@@ -46,12 +46,12 @@ body,
 ================================= */
 
 body {
-  font-family: var(--font-family-body);
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
+    font-family: var(--font-family-body);
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
 }
 
 /* ===============================
@@ -64,10 +64,10 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-family-heading);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+    font-family: var(--font-family-heading);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 /* ===============================
@@ -75,24 +75,24 @@ h6 {
 ================================= */
 
 :focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
 }
 
 /* Skip link */
 .skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--color-primary);
-  color: white;
-  padding: 8px 16px;
-  z-index: 100;
-  transition: top 0.3s;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 16px;
+    z-index: 100;
+    transition: top 0.3s;
 }
 
 .skip-link:focus {
-  top: 0;
+    top: 0;
 }
 
 /* ===============================
@@ -100,16 +100,16 @@ h6 {
 ================================= */
 
 ::-webkit-scrollbar {
-  width: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #CBD5E0;
-  border-radius: 20px;
+    background-color: #CBD5E0;
+    border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #A0AEC0;
+    background-color: #A0AEC0;
 }
 
 /* ===============================
@@ -117,8 +117,8 @@ h6 {
 ================================= */
 
 ::selection {
-  background-color: #BEE3F8;
-  color: var(--color-primary);
+    background-color: #BEE3F8;
+    color: var(--color-primary);
 }
 
 /* ===============================
@@ -130,7 +130,7 @@ a,
 input,
 textarea,
 select {
-  transition: all 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 /* ===============================
@@ -138,6 +138,6 @@ select {
 ================================= */
 
 .Toastify__toast {
-  border-radius: 12px !important;
-  font-family: var(--font-family-body) !important;
+    border-radius: 12px !important;
+    font-family: var(--font-family-body) !important;
 }
