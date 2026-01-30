@@ -27,7 +27,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <Section background="white">
+    <Section background="white" className="py-16 sm:py-24">
       <div className="text-center mb-12 sm:mb-16">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

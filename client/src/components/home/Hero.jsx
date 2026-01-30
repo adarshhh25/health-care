@@ -120,7 +120,7 @@ const Hero = () => {
   const navigate = useNavigate();
 
   return (
-    <Section background="white" className="relative overflow-hidden pt-0 pb-20">
+    <Section background="white" className="relative overflow-hidden pt-6 sm:pt-16 lg:pt-4 pb-20">
 
       {/* Background Gradient */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
