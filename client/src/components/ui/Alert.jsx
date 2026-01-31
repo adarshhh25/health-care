@@ -1,41 +1,41 @@
 import { motion } from 'framer-motion';
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 
-const Alert = ({ 
-  variant = 'info', 
-  title, 
-  children, 
+const Alert = ({
+  variant = 'info',
+  title,
+  children,
   onClose,
-  className = '' 
+  className = ''
 }) => {
   const variants = {
     info: {
-      bg: 'bg-blue-50 border-blue-200',
+      bg: 'bg-blue-900/20 border-blue-800',
       icon: Info,
-      iconColor: 'text-blue-600',
-      titleColor: 'text-blue-900',
-      textColor: 'text-blue-800'
+      iconColor: 'text-blue-400',
+      titleColor: 'text-blue-100',
+      textColor: 'text-blue-200'
     },
     success: {
-      bg: 'bg-green-50 border-green-200',
+      bg: 'bg-green-900/20 border-green-800',
       icon: CheckCircle,
-      iconColor: 'text-green-600',
-      titleColor: 'text-green-900',
-      textColor: 'text-green-800'
+      iconColor: 'text-green-400',
+      titleColor: 'text-green-100',
+      textColor: 'text-green-200'
     },
     warning: {
-      bg: 'bg-amber-50 border-amber-200',
+      bg: 'bg-amber-900/20 border-amber-800',
       icon: AlertTriangle,
-      iconColor: 'text-amber-600',
-      titleColor: 'text-amber-900',
-      textColor: 'text-amber-800'
+      iconColor: 'text-amber-400',
+      titleColor: 'text-amber-100',
+      textColor: 'text-amber-200'
     },
     error: {
-      bg: 'bg-red-50 border-red-200',
+      bg: 'bg-red-900/20 border-red-800',
       icon: AlertCircle,
-      iconColor: 'text-red-600',
-      titleColor: 'text-red-900',
-      textColor: 'text-red-800'
+      iconColor: 'text-red-400',
+      titleColor: 'text-red-100',
+      textColor: 'text-red-200'
     },
     emergency: {
       bg: 'bg-red-600 border-red-700',
@@ -67,7 +67,7 @@ const Alert = ({
         >
           <IconComponent className={`w-6 h-6 flex-shrink-0 ${currentVariant.iconColor}`} />
         </motion.div>
-        
+
         <div className="flex-1 min-w-0">
           {title && (
             <h4 className={`font-bold ${currentVariant.titleColor} mb-1`}>
@@ -78,7 +78,7 @@ const Alert = ({
             {children}
           </div>
         </div>
-        
+
         {onClose && (
           <button
             onClick={onClose}

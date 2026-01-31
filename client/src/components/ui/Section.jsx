@@ -21,8 +21,8 @@ import { motion } from 'framer-motion';
 
 const Section = ({ children, className = "", background = "default" }) => {
   const bgStyles = {
-    default: "bg-gray-50",
-    white: "bg-white",
+    default: "bg-transparent",
+    white: "bg-[var(--color-surface)]",
     transparent: "bg-transparent"
   };
 

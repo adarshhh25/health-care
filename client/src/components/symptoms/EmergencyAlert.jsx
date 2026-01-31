@@ -18,9 +18,9 @@ const EmergencyAlert = ({ onClose }) => {
         className="fixed inset-x-0 top-16 sm:top-20 z-40 px-4"
       >
         <div className="max-w-4xl mx-auto">
-          <div className="bg-red-600 text-white rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
+          <div className="bg-gradient-to-r from-red-600 to-red-800 text-white rounded-2xl shadow-[0_0_30px_rgba(239,68,68,0.5)] p-6 sm:p-8 relative overflow-hidden backdrop-blur-md border border-red-500/30">
             {/* Background pulse effect */}
-            <div className="absolute inset-0 bg-red-500 animate-pulse opacity-30" />
+            <div className="absolute inset-0 bg-red-500/20 animate-pulse" />
 
             <div className="relative z-10">
               {/* Close button */}
@@ -39,17 +39,18 @@ const EmergencyAlert = ({ onClose }) => {
                 <motion.div
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 0.5, repeat: Infinity }}
+                  className="bg-white/10 p-2 rounded-full backdrop-blur-sm"
                 >
                   <AlertCircle className="w-10 h-10" />
                 </motion.div>
                 <div>
-                  <h3 className="text-2xl font-bold">⚠️ {t('symptoms.emergency.title')}</h3>
-                  <p className="text-red-100">{t('symptoms.emergency.subtitle')}</p>
+                  <h3 className="text-2xl font-bold tracking-tight">⚠️ {t('symptoms.emergency.title')}</h3>
+                  <p className="text-red-100 font-medium">{t('symptoms.emergency.subtitle')}</p>
                 </div>
               </div>
 
               {/* Message */}
-              <p className="text-red-100 mb-6 leading-relaxed">
+              <p className="text-white mb-6 leading-relaxed text-lg">
                 {t('symptoms.emergency.message')}
               </p>
 
@@ -57,7 +58,7 @@ const EmergencyAlert = ({ onClose }) => {
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button
                   variant="outline"
-                  className="!bg-white !text-red-600 hover:!bg-red-50 !border-white"
+                  className="!bg-white !text-red-700 hover:!bg-red-50 !border-white font-bold shadow-lg"
                   icon={Phone}
                   onClick={() => window.location.href = 'tel:108'}
                 >

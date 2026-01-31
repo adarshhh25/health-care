@@ -47,22 +47,21 @@ const HospitalLocator = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7FAFC]">
+    <div className="min-h-screen">
       {/* Header */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <section className="relative pt-8 sm:pt-12 pb-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center"
           >
-            <div className="inline-flex items-center justify-center p-3 bg-green-50 rounded-2xl mb-4">
-              <MapPin className="w-8 h-8 text-[#48BB78]" />
+            <div className="inline-flex items-center justify-center p-3 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl mb-4 shadow-lg shadow-teal-500/10">
+              <MapPin className="w-8 h-8 text-teal-400" />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
               {t('hospitals.title')}
             </h1>
-            <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-xl mx-auto leading-relaxed">
               {t('hospitals.subtitle')}
             </p>
           </motion.div>
@@ -70,18 +69,18 @@ const HospitalLocator = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-8 sm:py-12">
+      <section className="pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Search Form */}
           {hospitals.length === 0 && !loading && (
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl">
               <LocationInput onSubmit={handleSearch} loading={loading} />
             </Card>
           )}
 
           {/* Loading State */}
           {loading && (
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl">
               <Loader message={t('hospitals.loading')} size="default" />
             </Card>
           )}
@@ -92,18 +91,18 @@ const HospitalLocator = () => {
               {/* Results Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <h2 className="text-2xl font-bold text-white">
                     {hospitals.length} {t('hospitals.found_msg')}
                   </h2>
                   {userLocation && (
-                    <p className="text-gray-600 text-sm mt-1">
+                    <p className="text-gray-400 text-sm mt-1">
                       {t('hospitals.near')} {userLocation.latitude.toFixed(4)}, {userLocation.longitude.toFixed(4)}
                     </p>
                   )}
                 </div>
                 <button
                   onClick={handleNewSearch}
-                  className="text-[#2B6CB0] font-semibold hover:underline"
+                  className="text-teal-400 font-semibold hover:text-teal-300 transition-colors"
                 >
                   ← {t('common.new_search')}
                 </button>
@@ -130,9 +129,9 @@ const HospitalLocator = () => {
               transition={{ delay: 0.3 }}
               className="mt-8"
             >
-              <Card className="text-center py-12" hover={false}>
-                <Building2 className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">
+              <Card className="text-center py-12 backdrop-blur-md bg-white/5 border border-white/10" hover={false}>
+                <Building2 className="w-16 h-16 text-gray-500 mx-auto mb-4" />
+                <p className="text-gray-400">
                   {t('hospitals.empty_state')}
                 </p>
               </Card>

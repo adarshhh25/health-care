@@ -87,27 +87,26 @@ const SymptomChecker = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7FAFC]">
+    <div className="min-h-screen">
       {/* Emergency Alert */}
       {showEmergency && (
         <EmergencyAlert onClose={() => setShowEmergency(false)} />
       )}
 
       {/* Header */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <section className="relative pt-8 sm:pt-12 pb-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center"
           >
-            <div className="inline-flex items-center justify-center p-3 bg-blue-50 rounded-2xl mb-4">
-              <Activity className="w-8 h-8 text-[#2B6CB0]" />
+            <div className="inline-flex items-center justify-center p-3 bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl mb-4 shadow-lg shadow-blue-500/10">
+              <Activity className="w-8 h-8 text-cyan-400" />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+            <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 tracking-tight">
               {t('symptoms.title')}
             </h1>
-            <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-xl mx-auto leading-relaxed">
               {t('symptoms.subtitle')}
             </p>
           </motion.div>
@@ -115,10 +114,10 @@ const SymptomChecker = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-8 sm:py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="pb-20">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? (
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl">
               <Loader message={t('symptoms.loading')} size="default" />
             </Card>
           ) : result ? (
@@ -128,14 +127,14 @@ const SymptomChecker = () => {
               <div className="text-center">
                 <button
                   onClick={handleNewAnalysis}
-                  className="text-[#2B6CB0] font-semibold hover:underline"
+                  className="text-cyan-400 font-semibold hover:text-cyan-300 transition-colors"
                 >
                   ← {t('symptoms.new_analysis')}
                 </button>
               </div>
             </div>
           ) : (
-            <Card>
+            <Card className="backdrop-blur-xl bg-white/5 border border-white/10 shadow-2xl overflow-hidden">
               <SymptomForm onSubmit={handleSubmit} loading={loading} />
             </Card>
           )}

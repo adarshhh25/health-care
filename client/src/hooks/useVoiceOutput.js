@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { cleanTextForSpeech } from '../utils/textUtils';
 
 const useVoiceOutput = () => {
     const { i18n } = useTranslation();
@@ -25,10 +26,15 @@ const useVoiceOutput = () => {
     const speak = useCallback((text) => {
         if (!isSupported || !text) return;
 
+        // Clean text for better speech experience (remove markdown, asterisks, etc.)
+        const cleanedText = cleanTextForSpeech(text);
+
+        if (!cleanedText) return;
+
         // Cancel any current speech
         window.speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        const utterance = new SpeechSynthesisUtterance(cleanedText);
         utterance.lang = getLangTag(i18n.language);
 
         // Adjust rate for better clarity, especially for non-native speakers or elderly

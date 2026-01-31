@@ -23,33 +23,34 @@ const Button = ({
 
   const variants = {
     primary: `
-      bg-[#2B6CB0] text-white hover:bg-[#2C5282] 
-      focus-visible:ring-[#2B6CB0] shadow-lg shadow-blue-200/50
-      hover:shadow-xl hover:shadow-blue-300/50
+      bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400
+      focus-visible:ring-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)] 
+      hover:shadow-[0_0_35px_rgba(6,182,212,0.6)] border border-cyan-400/20
+      relative after:absolute after:inset-0 after:rounded-xl after:ring-2 after:ring-white/20 after:animate-pulse
     `,
     secondary: `
-      bg-[#48BB78] text-white hover:bg-[#38A169] 
-      focus-visible:ring-[#48BB78] shadow-lg shadow-green-200/50
-      hover:shadow-xl hover:shadow-green-300/50
+      bg-gradient-to-r from-teal-600 to-teal-500 text-white hover:from-teal-500 hover:to-teal-400
+      focus-visible:ring-teal-400 shadow-[0_0_20px_rgba(20,184,166,0.5)]
+      hover:shadow-[0_0_30px_rgba(20,184,166,0.7)] border border-teal-400/20
     `,
     danger: `
-      bg-[#E53E3E] text-white hover:bg-[#C53030] 
-      focus-visible:ring-[#E53E3E] shadow-lg shadow-red-200/50
-      hover:shadow-xl hover:shadow-red-300/50
+      bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400
+      focus-visible:ring-red-400 shadow-[0_0_20px_rgba(239,68,68,0.5)]
+      hover:shadow-[0_0_30px_rgba(239,68,68,0.7)]
     `,
     outline: `
-      bg-transparent border-2 border-gray-300 text-gray-700 
-      hover:border-[#2B6CB0] hover:text-[#2B6CB0] hover:bg-blue-50
-      focus-visible:ring-[#2B6CB0]
+      bg-transparent border border-white/20 text-white
+      hover:border-white/40 hover:bg-white/5 hover:text-white
+      focus-visible:ring-white/50 backdrop-blur-sm
     `,
     ghost: `
-      bg-transparent text-gray-600 hover:bg-gray-100 hover:text-gray-900
-      focus-visible:ring-gray-400
+      bg-transparent text-gray-300 hover:bg-white/10 hover:text-white
+      focus-visible:ring-white/20
     `,
     emergency: `
-      bg-[#E53E3E] text-white hover:bg-[#C53030] 
-      focus-visible:ring-[#E53E3E] animate-pulse
-      shadow-lg shadow-red-300/50
+      bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400
+      focus-visible:ring-red-500 animate-pulse
+      shadow-[0_0_30px_rgba(239,68,68,0.6)]
     `
   };
 
@@ -78,22 +79,22 @@ const Button = ({
     >
       {loading ? (
         <>
-          <svg 
-            className="animate-spin h-5 w-5" 
-            fill="none" 
+          <svg
+            className="animate-spin h-5 w-5"
+            fill="none"
             viewBox="0 0 24 24"
           >
-            <circle 
-              className="opacity-25" 
-              cx="12" 
-              cy="12" 
-              r="10" 
-              stroke="currentColor" 
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
               strokeWidth="4"
             />
-            <path 
-              className="opacity-75" 
-              fill="currentColor" 
+            <path
+              className="opacity-75"
+              fill="currentColor"
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             />
           </svg>

@@ -203,17 +203,17 @@ const Header = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#020617]/80 border-b border-white/10 shadow-lg shadow-black/5">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         <div className="flex items-center justify-between h-20">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <div className="bg-[#2B6CB0] p-2 rounded-lg text-white">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="bg-gradient-to-br from-blue-500 to-teal-400 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-300">
               <Heart className="w-6 h-6" fill="currentColor" />
             </div>
-            <h1 className="text-xl font-bold text-gray-900">
-              RuralHealth<span className="text-[#2B6CB0]">AI</span>
+            <h1 className="text-xl font-bold text-white tracking-tight">
+              RuralHealth<span className="text-teal-400">AI</span>
             </h1>
           </Link>
 
@@ -224,10 +224,10 @@ const Header = () => {
                 key={item.href}
                 to={item.href}
                 className={`
-                  px-4 py-2 rounded-lg text-sm font-semibold
+                  px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
                   ${isActive(item.href)
-                    ? 'bg-blue-50 text-[#2B6CB0]'
-                    : 'text-gray-600 hover:text-[#2B6CB0]'
+                    ? 'bg-white/10 text-white shadow-inner'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }
                 `}
               >
@@ -237,19 +237,19 @@ const Header = () => {
 
             {/* Language Switcher */}
             <div className="relative group ml-2">
-              <button className="p-2 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-[#2B6CB0] flex items-center gap-1">
+              <button className="p-2 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white flex items-center gap-1 transition-colors">
                 <Globe className="w-5 h-5" />
                 <span className="text-sm font-semibold uppercase">{i18n.language.split('-')[0]}</span>
               </button>
 
-              <div className="absolute right-0 top-full mt-2 w-32 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
+              <div className="absolute right-0 top-full mt-2 w-32 bg-[#0f172a] rounded-xl shadow-xl shadow-black/50 border border-white/10 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
                     className={`
-                      w-full text-left px-4 py-2 text-sm font-medium
-                      ${i18n.language === lang.code ? 'text-[#2B6CB0] bg-blue-50' : 'text-gray-700 hover:bg-gray-50'}
+                      w-full text-left px-4 py-2 text-sm font-medium transition-colors
+                      ${i18n.language === lang.code ? 'text-teal-400 bg-white/5' : 'text-gray-400 hover:bg-white/5 hover:text-white'}
                     `}
                   >
                     {lang.name}
@@ -296,7 +296,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden border-t border-gray-100 bg-white">
+        <div className="lg:hidden border-t border-[var(--color-border)] bg-[var(--color-surface)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 space-y-2">
             {navigation.map((item) => (
               <Link
@@ -304,10 +304,10 @@ const Header = () => {
                 to={item.href}
                 onClick={() => setIsMenuOpen(false)}
                 className={`
-                  block py-3 px-4 rounded-lg text-sm font-semibold
+                  block py-3 px-4 rounded-lg text-sm font-semibold transition-colors
                   ${isActive(item.href)
-                    ? 'bg-blue-50 text-[#2B6CB0]'
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'
+                    : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]'
                   }
                 `}
               >
@@ -315,15 +315,15 @@ const Header = () => {
               </Link>
             ))}
 
-            <div className="border-t border-gray-100 my-2 pt-2">
+            <div className="border-t border-[var(--color-border)] my-2 pt-2">
               <div className="grid grid-cols-2 gap-2 p-2">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => changeLanguage(lang.code)}
                     className={`
-                      p-2 rounded-lg text-sm font-semibold text-center
-                      ${i18n.language === lang.code ? 'bg-blue-50 text-[#2B6CB0]' : 'text-gray-600 border border-gray-200'}
+                      p-2 rounded-lg text-sm font-semibold text-center transition-colors
+                      ${i18n.language === lang.code ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' : 'text-[var(--color-text-secondary)] border border-[var(--color-border)] hover:bg-[var(--color-surface-hover)]'}
                     `}
                   >
                     {lang.name}

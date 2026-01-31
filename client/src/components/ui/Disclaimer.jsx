@@ -4,9 +4,9 @@ import { AlertTriangle } from 'lucide-react';
 const Disclaimer = ({ className = '', variant = 'default' }) => {
   const { t } = useTranslation();
   const variants = {
-    default: 'bg-amber-50 border-amber-200 text-amber-800',
-    subtle: 'bg-gray-50 border-gray-200 text-gray-600',
-    prominent: 'bg-blue-50 border-blue-200 text-blue-800'
+    default: 'bg-amber-900/20 border-amber-800 text-amber-100',
+    subtle: 'bg-gray-800/50 border-gray-700 text-gray-300',
+    prominent: 'bg-blue-900/20 border-blue-800 text-blue-100'
   };
 
   return (

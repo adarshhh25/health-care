@@ -10,9 +10,9 @@ const HospitalCard = ({ hospital, index }) => {
 
   // Distance color coding
   const getDistanceColor = () => {
-    if (distance_km < 5) return 'bg-green-100 text-green-800 border-green-200';
-    if (distance_km < 10) return 'bg-amber-100 text-amber-800 border-amber-200';
-    return 'bg-red-100 text-red-800 border-red-200';
+    if (distance_km < 5) return 'bg-green-900/20 text-green-400 border-green-800';
+    if (distance_km < 10) return 'bg-amber-900/20 text-amber-400 border-amber-800';
+    return 'bg-red-900/20 text-red-400 border-red-800';
   };
 
   const openDirections = () => {
@@ -26,19 +26,19 @@ const HospitalCard = ({ hospital, index }) => {
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1 }}
     >
-      <Card className="h-full">
+      <Card className="h-full backdrop-blur-md bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300">
         <div className="flex flex-col sm:flex-row sm:items-start gap-4">
           {/* Icon */}
           <div className="flex-shrink-0">
-            <div className="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center">
-              <MapPin className="w-7 h-7 text-[#48BB78]" />
+            <div className="w-14 h-14 bg-teal-500/10 rounded-2xl flex items-center justify-center border border-teal-500/20">
+              <MapPin className="w-7 h-7 text-teal-400" />
             </div>
           </div>
 
           {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-3">
-              <h3 className="text-lg font-bold text-gray-900 line-clamp-2">
+              <h3 className="text-lg font-bold text-white line-clamp-2">
                 {name}
               </h3>
 
@@ -48,12 +48,12 @@ const HospitalCard = ({ hospital, index }) => {
               </span>
             </div>
 
-            <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+            <p className="text-gray-300 text-sm mb-4 line-clamp-2">
               {address}
             </p>
 
             {/* Coordinates */}
-            <p className="text-xs text-gray-400 mb-4">
+            <p className="text-xs text-gray-500 mb-4">
               📍 {latitude.toFixed(4)}, {longitude.toFixed(4)}
             </p>
 

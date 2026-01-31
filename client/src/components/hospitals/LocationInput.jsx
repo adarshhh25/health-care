@@ -106,7 +106,7 @@ const LocationInput = ({ onSubmit, loading }) => {
         >
           {gettingLocation ? t('common.getting_location') : t('common.u_location')}
         </Button>
-        <span className="text-gray-500 text-sm">{t('common.or_enter_manually')}</span>
+        <span className="text-gray-400 text-sm">{t('common.or_enter_manually')}</span>
       </div>
 
       {/* Coordinates Input */}

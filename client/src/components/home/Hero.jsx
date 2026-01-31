@@ -112,23 +112,36 @@
 
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Shield, Globe, Award } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import Section from '../ui/Section';
+import NeuralBackground from '../ui/NeuralBackground';
+import CountUp from '../ui/CountUp';
 
 const Hero = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <Section background="white" className="relative overflow-hidden pt-6 sm:pt-16 lg:pt-4 pb-20">
+    <Section className="relative overflow-hidden pt-6 sm:pt-16 lg:pt-4 pb-20 !bg-transparent">
 
       {/* Background Gradient */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-50 via-white to-transparent opacity-80" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-green-50 rounded-full blur-3xl opacity-50" />
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-blue-600/20 opacity-20 rounded-full blur-[100px] mix-blend-screen"
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-teal-500/10 opacity-10 rounded-full blur-[100px] mix-blend-screen"
+        />
       </div>
+
+      {/* Neural Background Animation */}
+      <NeuralBackground />
 
       {/* Content */}
       <div className="text-center w-full">
@@ -138,11 +151,11 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-[#2B6CB0] font-semibold text-sm mb-8 border border-blue-100"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-semibold text-sm mb-8 border border-[var(--color-primary)]/20 shadow-lg shadow-blue-500/10"
         >
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2B6CB0]" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--color-primary)]" />
           </span>
           {t('hero.badge')}
         </motion.div>
@@ -152,10 +165,12 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight mb-6 leading-[1.1]"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]"
         >
-          {t('hero.title_start')}{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2B6CB0] to-[#48BB78]">
+          <span className="text-white">
+            {t('hero.title_start')}
+          </span>{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] filter drop-shadow-sm">
             {t('hero.title_highlight')}
           </span>
         </motion.h1>
@@ -165,7 +180,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           {t('hero.subtitle')}
         </motion.p>
@@ -175,12 +190,12 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
         >
           <Button
             size="lg"
             onClick={() => navigate('/symptoms')}
-            className="shadow-xl shadow-blue-200/50"
+            className="shadow-xl shadow-blue-500/20"
           >
             {t('hero.cta_check_symptoms')}
             <ChevronRight className="w-5 h-5" />
@@ -194,25 +209,49 @@ const Hero = () => {
           </Button>
         </motion.div>
 
+        {/* Trust Badges */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-wrap justify-center gap-6 sm:gap-12 mb-16"
+        >
+          {[
+            { icon: Shield, text: "HIPAA Compliant" },
+            { icon: Globe, text: "Rural Optimized" },
+            { icon: Award, text: "98% Accuracy" }
+          ].map((item, idx) => (
+            <div key={idx} className="flex items-center gap-2 text-gray-400">
+              <item.icon className="w-5 h-5 text-teal-400" />
+              <span className="text-sm font-medium">{item.text}</span>
+            </div>
+          ))}
+        </motion.div>
+
         {/* Stats */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 pt-8 border-t border-gray-100"
+          className="pt-8 border-t border-[var(--color-border)]"
         >
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
-            {[
-              { value: t('hero.stats.val_hospitals'), label: t('hero.stats.hospitals') },
-              { value: t('hero.stats.val_available'), label: t('hero.stats.available') },
-              { value: t('hero.stats.val_free'), label: t('hero.stats.lbl_free') },
-              { value: t('hero.stats.val_time'), label: t('hero.stats.analysis_time') },
-            ].map((stat, index) => (
-              <div key={index} className="text-center">
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</p>
-                <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
-              </div>
-            ))}
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-bold text-white mb-1"><CountUp to={10000} />+</p>
+              <p className="text-sm text-gray-400">{t('hero.stats.hospitals')}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-bold text-white mb-1">24/7</p>
+              <p className="text-sm text-gray-400">{t('hero.stats.available')}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{t('hero.stats.val_free')}</p>
+              <p className="text-sm text-gray-400">{t('hero.stats.lbl_free')}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-3xl sm:text-4xl font-bold text-white mb-1">&lt;<CountUp to={30} />s</p>
+              <p className="text-sm text-gray-400">{t('hero.stats.analysis_time')}</p>
+            </div>
           </div>
         </motion.div>
 

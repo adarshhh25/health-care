@@ -30,7 +30,7 @@
     },
     "hero": {
         "badge": "AI-Powered Healthcare Screening",
-        "title_start": "Accessible Healthcare",
+        "title_start": "Accessible AI Health care",
         "title_highlight": "for Rural Communities",
         "subtitle": "Get instant preliminary health screening powered by AI. Describe your symptoms, analyze images, and find nearby hospitals — in your language.",
         "cta_check_symptoms": "Check Your Symptoms",
@@ -71,20 +71,16 @@
         "title": "How It Works",
         "subtitle": "Get health insights in four simple steps — no appointments needed.",
         "step1": {
-            "title": "Select Service",
-            "desc": "Choose between text-based symptom checking or image analysis."
+            "title": "Describe or Upload",
+            "desc": "Enter symptoms or upload an image for immediate analysis."
         },
         "step2": {
-            "title": "Input Details",
-            "desc": "Describe your condition or upload an image securely."
-        },
-        "step3": {
-            "title": "AI Analysis",
+            "title": "AI Processing",
             "desc": "Our advanced AI models analyze your input instantly."
         },
-        "step4": {
-            "title": "Get Results",
-            "desc": "Receive preliminary insights and find nearby care."
+        "step3": {
+            "title": "Get Results & Care",
+            "desc": "Receive insights and find nearby hospitals immediately."
         }
     },
     "footer": {

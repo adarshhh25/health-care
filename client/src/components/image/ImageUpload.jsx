@@ -97,8 +97,8 @@ const ImageUpload = ({ onSubmit, loading }) => {
     >
       {/* Upload Zone */}
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          {t('image_analysis.upload.label')} <span className="text-red-500">*</span>
+        <label className="block text-sm font-semibold text-gray-200 mb-2">
+          {t('image_analysis.upload.label')} <span className="text-red-400">*</span>
         </label>
 
         {!preview ? (
@@ -112,8 +112,8 @@ const ImageUpload = ({ onSubmit, loading }) => {
               relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer
               transition-all duration-200
               ${dragActive
-                ? 'border-purple-500 bg-purple-50'
-                : 'border-gray-300 hover:border-purple-400 hover:bg-gray-50'
+                ? 'border-purple-400 bg-purple-500/10'
+                : 'border-white/20 hover:border-purple-400/50 hover:bg-white/5'
               }
             `}
           >
@@ -121,11 +121,11 @@ const ImageUpload = ({ onSubmit, loading }) => {
               animate={dragActive ? { scale: 1.05 } : { scale: 1 }}
               transition={{ duration: 0.2 }}
             >
-              <Upload className={`w-12 h-12 mx-auto mb-4 ${dragActive ? 'text-purple-500' : 'text-gray-400'}`} />
-              <p className="text-gray-700 font-medium mb-2">
+              <Upload className={`w-12 h-12 mx-auto mb-4 ${dragActive ? 'text-purple-400' : 'text-gray-400'}`} />
+              <p className="text-gray-200 font-medium mb-2">
                 {dragActive ? t('image_analysis.upload.drop_here') : t('image_analysis.upload.drag_drop')}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 {t('image_analysis.upload.formats')}
               </p>
             </motion.div>

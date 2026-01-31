@@ -12,30 +12,33 @@ const Textarea = forwardRef(({
   return (
     <div className={`w-full ${className}`}>
       {label && (
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-gray-200 mb-2">
           {label}
-          {required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-red-400 ml-1">*</span>}
         </label>
       )}
-      
+
       <textarea
         ref={ref}
         rows={rows}
         className={`
           w-full px-4 py-3 
-          border-2 rounded-xl
-          text-gray-900 placeholder-gray-400
+          border rounded-xl
+          bg-white/5 text-white
+          placeholder-gray-400
+          border-white/10
           transition-all duration-200
-          focus:outline-none focus:ring-0
+          focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent
           resize-none
-          ${error 
-            ? 'border-red-300 focus:border-red-500 bg-red-50' 
-            : 'border-gray-200 focus:border-[#2B6CB0] hover:border-gray-300'
+          hover:border-white/20
+          ${error
+            ? 'border-red-500/50 focus:ring-red-500/50 bg-red-900/10'
+            : ''
           }
         `}
         {...props}
       />
-      
+
       {(error || helperText) && (
         <p className={`mt-2 text-sm ${error ? 'text-red-600' : 'text-gray-500'}`}>
           {error || helperText}

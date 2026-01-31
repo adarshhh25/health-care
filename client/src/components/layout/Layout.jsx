@@ -62,7 +62,7 @@ import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-gray-50">
+    <div className="min-h-screen w-full overflow-x-hidden">
       <Header />
 
       {/* Only spacing here — NO centering container */}
