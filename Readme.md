@@ -171,5 +171,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 - **Adarsh Jha**
 - **Author Name**
-- **Author Name**
+- **Mitesh Lohar**
 - **Author Name**
