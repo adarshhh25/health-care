@@ -170,6 +170,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 👥 Authors
 
 - **Adarsh Jha**
-- **Author Name**
+- **Sujit thakur**
 - **Mitesh Lohar**
 - **Author Name**
