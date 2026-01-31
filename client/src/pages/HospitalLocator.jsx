@@ -115,6 +115,7 @@ const HospitalLocator = () => {
                     key={index}
                     hospital={hospital}
                     index={index}
+                    userLocation={userLocation}
                   />
                 ))}
               </div>

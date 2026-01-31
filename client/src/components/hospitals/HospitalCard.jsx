@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 
-const HospitalCard = ({ hospital, index }) => {
+const HospitalCard = ({ hospital, index, userLocation }) => {
   const { t } = useTranslation();
   const { name, address, distance_km, latitude, longitude, phone } = hospital;
 
@@ -16,7 +16,10 @@ const HospitalCard = ({ hospital, index }) => {
   };
 
   const openDirections = () => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+    let url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+    if (userLocation && userLocation.latitude && userLocation.longitude) {
+      url += `&origin=${userLocation.latitude},${userLocation.longitude}`;
+    }
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
